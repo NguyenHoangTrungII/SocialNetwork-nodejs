@@ -1,7 +1,13 @@
 const bcryptjs = require("bcryptjs");
+const post = require("./post");
 
-module.exports = (sequelize, Sequelize) => {
+module.exports = (sequelize, Sequelize, Post) => {
   const User = sequelize.define("user", {
+    UserId: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     name: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -43,6 +49,11 @@ module.exports = (sequelize, Sequelize) => {
     //   },
     // ],
   });
+
+  // User.hasMany(sequelize.models.Post, {
+  //   foreignKey: "userID",
+  //   onDelete: "CASCADE",
+  // });
 
   User.beforeCreate(async (user, options) => {
     if (user.changed("password")) {
